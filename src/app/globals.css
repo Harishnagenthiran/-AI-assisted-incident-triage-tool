@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+:root {
+  --canvas: #10131a;
+  --panel: #171b24;
+  --panel-raised: #1e232e;
+  --line: #2a303c;
+  --line-soft: #212632;
+  --ink: #e8eaf0;
+  --ink-muted: #9aa3b5;
+  --ink-dim: #616b7e;
+
+  --sev-critical: #ef5a5f;
+  --sev-critical-dim: #3a2226;
+  --sev-high: #f0a542;
+  --sev-high-dim: #362a1c;
+  --sev-medium: #e0c355;
+  --sev-medium-dim: #33301d;
+  --sev-low: #4fb894;
+  --sev-low-dim: #1c332c;
+
+  --wire: #313847;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-panel: var(--panel);
+  --color-panel-raised: var(--panel-raised);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-dim: var(--ink-dim);
+  --color-wire: var(--wire);
+
+  --color-sev-critical: var(--sev-critical);
+  --color-sev-critical-dim: var(--sev-critical-dim);
+  --color-sev-high: var(--sev-high);
+  --color-sev-high-dim: var(--sev-high-dim);
+  --color-sev-medium: var(--sev-medium);
+  --color-sev-medium-dim: var(--sev-medium-dim);
+  --color-sev-low: var(--sev-low);
+  --color-sev-low-dim: var(--sev-low-dim);
+
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, monospace;
+}
+
+* {
+  border-color: var(--line);
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+}
+
+::selection {
+  background: var(--sev-high);
+  color: #10131a;
+}
+
+.scroll-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: var(--wire);
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

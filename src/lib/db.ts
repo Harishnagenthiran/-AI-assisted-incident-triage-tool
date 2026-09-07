@@ -1,7 +1,14 @@
 import fs from "fs";
 import path from "path";
+import os from "os";
 
-const DATA_DIR = path.join(process.cwd(), "data");
+// On Vercel (and most serverless platforms), the deployed app's own directory is
+// read-only — only the OS temp directory is writable. Locally, os.tmpdir() still
+// resolves to a normal writable folder, so this works identically in both places.
+// Note: on serverless, this directory is NOT guaranteed to persist between requests
+// or across cold starts, so history may reset periodically once deployed. For durable
+// history in production, swap this file for a hosted store (see README).
+const DATA_DIR = path.join(os.tmpdir(), "rootline-data");
 const DATA_FILE = path.join(DATA_DIR, "rootline.json");
 
 export interface IncidentRecord {
@@ -30,14 +37,12 @@ function ensureStore(): IncidentRecord[] {
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? parsed : [];
   } catch {
-    // Corrupt or empty file — reset rather than crash the app.
     fs.writeFileSync(DATA_FILE, "[]", "utf-8");
     return [];
   }
 }
 
 function writeStore(records: IncidentRecord[]) {
-  // Write to a temp file then rename, so a crash mid-write can't corrupt the store.
   const tmp = `${DATA_FILE}.tmp`;
   fs.writeFileSync(tmp, JSON.stringify(records, null, 2), "utf-8");
   fs.renameSync(tmp, DATA_FILE);
